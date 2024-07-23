@@ -1,6 +1,6 @@
-//backend/server.js
+// backend/server.js
 const express = require('express');
-const CodeBlock = require('./models/CodeBlock.js')
+const CodeBlock = require('./models/CodeBlock.js');
 const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
@@ -11,50 +11,41 @@ const app = express();
 const PORT = process.env.PORT || 5002;
 const server = http.createServer(app);
 const io = socketIo(server);
-// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
-const mongoURI = process.env.MangoDB_URL
+
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
 app.use(cors());
 app.use(express.json());
 
-// mongoose.connect('mongodb://localhost:27017/mydatabase').then(() => {
-  mongoose.connect(mongoURI).then(() => {
+mongoose.connect(mongoURI).then(() => {
   console.log('Connected to MongoDB');
   initializeCodeBlocks();
 }).catch(err => console.error('Could not connect to MongoDB:', err));
 
-
 // set of default exercises
 const defaultCodeBlocks = [
   {
-    id:1,
     title: 'Exercise 1',
     description: 'Async case',
     code: 'async function fetchData()',
     solution: 'async function fetchData() {\n  const response = await fetch("/data");\n  const data = await response.json();\n  console.log(data);\n}',
   },
   {
-    id:2,
     title: 'Exercise 2',
     description: 'Promise case',
     code: 'Promise case: function fetchData() ',
     solution: 'function fetchData() {\n  fetch("/data")\n    .then(response => response.json())\n    .then(data => console.log(data));\n}',
   },
   {
-    id:3,
     title: 'Exercise 3',
     description: 'Callback case',
     code: 'function fetchData(callback) {\n}',
     solution: 'function fetchData(callback) {\n  fetch("/data")\n    .then(response => response.json())\n    .then(data => callback(data));\n}',
   },
   {
-    id:4,
     title: 'Exercise 4',
-    description: 'print hellow word',
+    description: 'Print Hello World',
     code: 'console.log();',
     solution: 'console.log("Hello World!");',
-
-
-
   },
 ];
 
@@ -72,9 +63,8 @@ async function initializeCodeBlocks() {
   }
 }
 
-
 // defining API routes
-app.get('https://my-api-app-13.onrender.com/api/codeblocks', async (req, res) => {
+app.get('/api/codeblocks', async (req, res) => {
   try {
     const codeBlocks = await CodeBlock.find();
     res.json(codeBlocks);
@@ -83,7 +73,7 @@ app.get('https://my-api-app-13.onrender.com/api/codeblocks', async (req, res) =>
   }
 });
 
-app.get('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res) => {
+app.get('/api/codeblocks/:id', async (req, res) => {
   try {
     const codeBlock = await CodeBlock.findById(req.params.id);
     res.json(codeBlock);
@@ -92,7 +82,7 @@ app.get('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res
   }
 });
 
-app.post('https://my-api-app-13.onrender.com/api/codeblocks', async (req, res) => {
+app.post('/api/codeblocks', async (req, res) => {
   try {
     const newCodeBlock = new CodeBlock(req.body);
     const savedCodeBlock = await newCodeBlock.save();
@@ -102,7 +92,7 @@ app.post('https://my-api-app-13.onrender.com/api/codeblocks', async (req, res) =
   }
 });
 
-app.put('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res) => {
+app.put('/api/codeblocks/:id', async (req, res) => {
   try {
     const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedCodeBlock);
@@ -111,7 +101,7 @@ app.put('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res
   }
 });
 
-app.delete('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res) => {
+app.delete('/api/codeblocks/:id', async (req, res) => {
   try {
     await CodeBlock.findByIdAndDelete(req.params.id);
     res.json({ message: 'CodeBlock deleted' });
@@ -134,7 +124,6 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
 });
-
 
 // Start the server
 server.listen(PORT, () => {
