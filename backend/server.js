@@ -74,7 +74,7 @@ async function initializeCodeBlocks() {
 
 
 // defining API routes
-app.get('/api/codeblocks', async (req, res) => {
+app.get('https://my-api-app-13.onrender.com/api/codeblocks', async (req, res) => {
   try {
     const codeBlocks = await CodeBlock.find();
     res.json(codeBlocks);
@@ -83,7 +83,7 @@ app.get('/api/codeblocks', async (req, res) => {
   }
 });
 
-app.get('/api/codeblocks/:id', async (req, res) => {
+app.get('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res) => {
   try {
     const codeBlock = await CodeBlock.findById(req.params.id);
     res.json(codeBlock);
@@ -92,7 +92,7 @@ app.get('/api/codeblocks/:id', async (req, res) => {
   }
 });
 
-app.post('/api/codeblocks', async (req, res) => {
+app.post('https://my-api-app-13.onrender.com/api/codeblocks', async (req, res) => {
   try {
     const newCodeBlock = new CodeBlock(req.body);
     const savedCodeBlock = await newCodeBlock.save();
@@ -102,7 +102,7 @@ app.post('/api/codeblocks', async (req, res) => {
   }
 });
 
-app.put('/api/codeblocks/:id', async (req, res) => {
+app.put('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res) => {
   try {
     const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedCodeBlock);
@@ -111,7 +111,7 @@ app.put('/api/codeblocks/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/codeblocks/:id', async (req, res) => {
+app.delete('https://my-api-app-13.onrender.com/api/codeblocks/:id', async (req, res) => {
   try {
     await CodeBlock.findByIdAndDelete(req.params.id);
     res.json({ message: 'CodeBlock deleted' });
