@@ -1,30 +1,61 @@
-require('dotenv').config();
+//backend/server.js
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const CodeBlock = require('./models/CodeBlock.js')
 const http = require('http');
 const socketIo = require('socket.io');
-const CodeBlock = require('./models/CodeBlock');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const PORT = process.env.PORT || 5002;
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
-
+const server = http.createServer(app);
+const io = socketIo(server);
+// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
+const mongoURI = process.env.MangoDB_URL
 app.use(cors());
 app.use(express.json());
 
-const server = http.createServer(app);
-const io = socketIo(server);
+// mongoose.connect('mongodb://localhost:27017/mydatabase').then(() => {
+  mongoose.connect(mongoURI).then(() => {
+  console.log('Connected to MongoDB');
+  initializeCodeBlocks();
+}).catch(err => console.error('Could not connect to MongoDB:', err));
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Connected to MongoDB');
-    initializeCodeBlocks();
-  })
-  .catch(err => console.error('Could not connect to MongoDB:', err));
 
+// set of default exercises
 const defaultCodeBlocks = [
-  // Your default code blocks
+  {
+    id:1,
+    title: 'Exercise 1',
+    description: 'Async case',
+    code: 'async function fetchData()',
+    solution: 'async function fetchData() {\n  const response = await fetch("/data");\n  const data = await response.json();\n  console.log(data);\n}',
+  },
+  {
+    id:2,
+    title: 'Exercise 2',
+    description: 'Promise case',
+    code: 'Promise case: function fetchData() ',
+    solution: 'function fetchData() {\n  fetch("/data")\n    .then(response => response.json())\n    .then(data => console.log(data));\n}',
+  },
+  {
+    id:3,
+    title: 'Exercise 3',
+    description: 'Callback case',
+    code: 'function fetchData(callback) {\n}',
+    solution: 'function fetchData(callback) {\n  fetch("/data")\n    .then(response => response.json())\n    .then(data => callback(data));\n}',
+  },
+  {
+    id:4,
+    title: 'Exercise 4',
+    description: 'print hellow word',
+    code: 'console.log();',
+    solution: 'console.log("Hello World!");',
+
+
+
+  },
 ];
 
 async function initializeCodeBlocks() {
@@ -41,59 +72,51 @@ async function initializeCodeBlocks() {
   }
 }
 
+
+// defining API routes
 app.get('/api/codeblocks', async (req, res) => {
   try {
-    console.log('Received request for /api/codeblocks');
     const codeBlocks = await CodeBlock.find();
     res.json(codeBlocks);
   } catch (err) {
-    console.error('Error fetching code blocks:', err);
-    res.status(500).json({ error: 'Error fetching code blocks' });
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.get('/api/codeblocks/:id', async (req, res) => {
   try {
-    console.log(`Received request for /api/codeblocks/${req.params.id}`);
     const codeBlock = await CodeBlock.findById(req.params.id);
     res.json(codeBlock);
   } catch (err) {
-    console.error('Error fetching code block:', err);
-    res.status(500).json({ error: 'Error fetching code block' });
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.post('/api/codeblocks', async (req, res) => {
   try {
-    console.log('Received request to create a new code block');
     const newCodeBlock = new CodeBlock(req.body);
     const savedCodeBlock = await newCodeBlock.save();
     res.status(201).json(savedCodeBlock);
   } catch (err) {
-    console.error('Error saving code block:', err);
-    res.status(500).json({ error: 'Error saving code block' });
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.put('/api/codeblocks/:id', async (req, res) => {
   try {
-    console.log(`Received request to update code block with ID ${req.params.id}`);
     const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedCodeBlock);
   } catch (err) {
-    console.error('Error updating code block:', err);
-    res.status(500).json({ error: 'Error updating code block' });
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.delete('/api/codeblocks/:id', async (req, res) => {
   try {
-    console.log(`Received request to delete code block with ID ${req.params.id}`);
     await CodeBlock.findByIdAndDelete(req.params.id);
     res.json({ message: 'CodeBlock deleted' });
   } catch (err) {
-    console.error('Error deleting code block:', err);
-    res.status(500).json({ error: 'Error deleting code block' });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -112,6 +135,8 @@ io.on('connection', (socket) => {
   });
 });
 
+
+// Start the server
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
