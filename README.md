@@ -5,40 +5,12 @@
 ###Mentor-Student Coding Collaboration
 Task is a web application designed for real-time code sharing and collaboration between mentors and students. The application allows a mentor to observe and guide a student's coding process in real-time using websockets and syntax highlighting.
 
-Features
+####Features
 Real-time code editing and sharing
 Syntax highlighting
 Mentor-student roles with different access permissions
 Backend powered by Express and MongoDB
 Frontend built with React
-Project Structure
-task/
-├── backend/
-│   ├── server.js
-│   ├── models/
-│   │   └── CodeBlock.js
-[   ├── routes/
-│   │   └── codeblocks.js
-│   ├── package.json
-│   └── package-lock.json
-├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── CodeBlockPage.jsx
-│   │   │   ├── LobbyPage.jsx
-│   │   │   ├── CodeBlockPage.css
-│   │   │   ├── LobbyPage.css
-│   │   │   └── App.jsx
-│   │   ├── index.css
-│   │   ├── index.js
-│   │   ├── socket.jsx
-|   |   ├── sochet.jsx
-│   │   ├── api.jsx
-│   │   └── App.css
-│   ├── package.json
-│   └── package-lock.json
 
 # Setup Backend in terminal:
 cd backend
