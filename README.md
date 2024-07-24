@@ -1,2 +1,61 @@
 # MY_API_APP
-Tom is Josh’s mentor for JS, but while Covid is still out there he prefers to do remote sessions. Tom wants to share with Josh a piece of code, observe him while he is writing and changing the code in real time.
+
+##URL TO APP (vercel): my-api-app-ycfs.vercel.app
+
+###Mentor-Student Coding Collaboration
+Task is a web application designed for real-time code sharing and collaboration between mentors and students. The application allows a mentor to observe and guide a student's coding process in real-time using websockets and syntax highlighting.
+
+Features
+Real-time code editing and sharing
+Syntax highlighting
+Mentor-student roles with different access permissions
+Backend powered by Express and MongoDB
+Frontend built with React
+Project Structure
+task/
+├── backend/
+│   ├── server.js
+│   ├── models/
+│   │   └── CodeBlock.js
+[   ├── routes/
+│   │   └── codeblocks.js
+│   ├── package.json
+│   └── package-lock.json
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── CodeBlockPage.jsx
+│   │   │   ├── LobbyPage.jsx
+│   │   │   ├── CodeBlockPage.css
+│   │   │   ├── LobbyPage.css
+│   │   │   └── App.jsx
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── socket.jsx
+|   |   ├── sochet.jsx
+│   │   ├── api.jsx
+│   │   └── App.css
+│   ├── package.json
+│   └── package-lock.json
+
+# Setup Backend in terminal:
+cd backend
+npm install
+node server.js
+
+# Setup Frontend in new terminal:
+cd frontend
+npm install
+npm start
+
+# Usage:
+Navigate to the lobby page to select a code block.
+Students can edit the code, and mentors can view the code in real-time.
+Use the "Check Solution" button to validate the student's code against the stored solution.
+
+# Technologies:
+Frontend: React, socket.io-client, highlight.js
+Backend: Express, MongoDB, Mongoose, socket.io
+Other Libraries: cors, axios
