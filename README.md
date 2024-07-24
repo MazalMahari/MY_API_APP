@@ -1,11 +1,11 @@
 # MY_API_APP
 
-##URL TO APP (vercel): my-api-app-ycfs.vercel.app
+## URL TO APP (vercel):  my-api-app-ycfs.vercel.app
 
-###Mentor-Student Coding Collaboration
+### Mentor-Student Coding Collaboration
 Task is a web application designed for real-time code sharing and collaboration between mentors and students. The application allows a mentor to observe and guide a student's coding process in real-time using websockets and syntax highlighting.
 
-####Features
+#### Features
 Real-time code editing and sharing
 Syntax highlighting
 Mentor-student roles with different access permissions
