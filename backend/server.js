@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5002;
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
+const mongoURI = process.env.MONGODB_URL || 'mongodb://localhost:27017/mydatabase';
 app.use(cors());
 app.use(express.json());
 
